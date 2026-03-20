@@ -1,28 +1,29 @@
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC5 - Preserve Insertion Order of Bogies");
+        System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
+        // Create HashMap
+        Map<String, Integer> capacityMap = new HashMap<>();
 
-        // Create LinkedHashSet
-        Set<String> formation = new LinkedHashSet<>();
+        // Add bogies with capacity
+        capacityMap.put("Sleeper", 72);
+        capacityMap.put("AC", 50);
+        capacityMap.put("FirstClass", 40);
+        capacityMap.put("Cargo", 100);
 
-        // Add bogies
-        formation.add("Engine");
-        formation.add("Sleeper");
-        formation.add("Cargo");
-        formation.add("Guard");
+        // Display all bogies with capacity
+        System.out.println("\nBogie Capacity Details:");
+        for (Map.Entry<String, Integer> entry : capacityMap.entrySet()) {
+            System.out.println(entry.getKey() + " → Capacity: " + entry.getValue());
+        }
 
-        // Try adding duplicate
-        formation.add("Sleeper");
+        // Access specific bogie
+        System.out.println("\nCapacity of Sleeper: " + capacityMap.get("Sleeper"));
 
-        // Display formation
-        System.out.println("\nFinal Train Formation:");
-        System.out.println(formation);
-
-        System.out.println("\nDuplicates are not allowed, order is preserved.");
+        System.out.println("\nUC6 operations completed successfully...");
     }
 }
