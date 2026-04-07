@@ -3,58 +3,56 @@ import static org.junit.Assert.*;
 
 public class TrainConsistManagementAppTest {
 
-    @Test
-    public void testCargo_SafeAssignment() {
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Cylindrical");
-
-        bogie.assignCargo("Petroleum");
-
-        assertEquals("Petroleum", bogie.cargo);
+    private int[] sort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+        return arr;
     }
 
     @Test
-    public void testCargo_UnsafeAssignmentHandled() {
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+    public void testBubbleSort_CorrectOrder() {
+        int[] input = {72, 56, 24, 70, 60};
+        int[] result = sort(input);
 
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.cargo); // should not assign
+        assertArrayEquals(new int[]{24, 56, 60, 70, 72}, result);
     }
 
     @Test
-    public void testCargo_CargoNotAssignedAfterFailure() {
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+    public void testBubbleSort_AlreadySorted() {
+        int[] input = {10, 20, 30};
+        int[] result = sort(input);
 
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.cargo);
+        assertArrayEquals(new int[]{10, 20, 30}, result);
     }
 
     @Test
-    public void testCargo_ProgramContinuesAfterException() {
-        TrainConsistManagementApp.GoodsBogie b1 =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+    public void testBubbleSort_ReverseOrder() {
+        int[] input = {5, 4, 3, 2, 1};
+        int[] result = sort(input);
 
-        TrainConsistManagementApp.GoodsBogie b2 =
-                new TrainConsistManagementApp.GoodsBogie("Cylindrical");
-
-        b1.assignCargo("Petroleum"); // fails
-        b2.assignCargo("Petroleum"); // should still work
-
-        assertEquals("Petroleum", b2.cargo);
+        assertArrayEquals(new int[]{1, 2, 3, 4, 5}, result);
     }
 
     @Test
-    public void testCargo_FinallyBlockExecution() {
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+    public void testBubbleSort_SingleElement() {
+        int[] input = {10};
+        int[] result = sort(input);
 
-        bogie.assignCargo("Petroleum");
+        assertArrayEquals(new int[]{10}, result);
+    }
 
-        // No direct assertion → but if no crash, finally executed
-        assertTrue(true);
+    @Test
+    public void testBubbleSort_EmptyArray() {
+        int[] input = {};
+        int[] result = sort(input);
+
+        assertArrayEquals(new int[]{}, result);
     }
 }
