@@ -1,26 +1,103 @@
 import org.junit.Test;
 import java.util.*;
+import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 public class TrainConsistManagementAppTest {
 
-    @Test
-    public void testSorting() {
-
+    private List<TrainConsistManagementApp.Bogie> getBogies() {
         List<TrainConsistManagementApp.Bogie> bogies = new ArrayList<>();
-
         bogies.add(new TrainConsistManagementApp.Bogie("Sleeper", 72));
         bogies.add(new TrainConsistManagementApp.Bogie("AC Chair", 56));
         bogies.add(new TrainConsistManagementApp.Bogie("First Class", 24));
+        bogies.add(new TrainConsistManagementApp.Bogie("General", 90));
+        return bogies;
+    }
 
-        Collections.sort(bogies,
-                (TrainConsistManagementApp.Bogie b1,
-                 TrainConsistManagementApp.Bogie b2)
-                        -> b1.capacity - b2.capacity
-        );
+    @Test
+    public void testFilter_CapacityGreaterThanThreshold() {
+        List<TrainConsistManagementApp.Bogie> result =
+                getBogies().stream()
+                        .filter(b -> b.capacity > 60)
+                        .collect(Collectors.toList());
 
-        assertEquals(24, bogies.get(0).capacity);
-        assertEquals(56, bogies.get(1).capacity);
-        assertEquals(72, bogies.get(2).capacity);
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void testFilter_CapacityEqualToThreshold() {
+        List<TrainConsistManagementApp.Bogie> bogies = new ArrayList<>();
+        bogies.add(new TrainConsistManagementApp.Bogie("Test", 60));
+
+        List<TrainConsistManagementApp.Bogie> result =
+                bogies.stream()
+                        .filter(b -> b.capacity > 60)
+                        .collect(Collectors.toList());
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testFilter_CapacityLessThanThreshold() {
+        List<TrainConsistManagementApp.Bogie> result =
+                getBogies().stream()
+                        .filter(b -> b.capacity > 80)
+                        .collect(Collectors.toList());
+
+        assertEquals(1, result.size()); // only General (90)
+    }
+
+    @Test
+    public void testFilter_MultipleBogiesMatching() {
+        List<TrainConsistManagementApp.Bogie> result =
+                getBogies().stream()
+                        .filter(b -> b.capacity > 50)
+                        .collect(Collectors.toList());
+
+        assertEquals(3, result.size());
+    }
+
+    @Test
+    public void testFilter_NoBogiesMatching() {
+        List<TrainConsistManagementApp.Bogie> result =
+                getBogies().stream()
+                        .filter(b -> b.capacity > 100)
+                        .collect(Collectors.toList());
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testFilter_AllBogiesMatching() {
+        List<TrainConsistManagementApp.Bogie> result =
+                getBogies().stream()
+                        .filter(b -> b.capacity > 10)
+                        .collect(Collectors.toList());
+
+        assertEquals(4, result.size());
+    }
+
+    @Test
+    public void testFilter_EmptyBogieList() {
+        List<TrainConsistManagementApp.Bogie> bogies = new ArrayList<>();
+
+        List<TrainConsistManagementApp.Bogie> result =
+                bogies.stream()
+                        .filter(b -> b.capacity > 60)
+                        .collect(Collectors.toList());
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testFilter_OriginalListUnchanged() {
+        List<TrainConsistManagementApp.Bogie> original = getBogies();
+
+        List<TrainConsistManagementApp.Bogie> result =
+                original.stream()
+                        .filter(b -> b.capacity > 60)
+                        .collect(Collectors.toList());
+
+        assertEquals(4, original.size()); // original unchanged
     }
 }
