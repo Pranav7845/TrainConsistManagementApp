@@ -14,9 +14,7 @@ public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("======================================");
         System.out.println("UC7 - Sort Bogies by Capacity (Comparator)");
-        System.out.println("======================================\n");
 
         List<Bogie> bogies = new ArrayList<>();
 
