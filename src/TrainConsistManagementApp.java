@@ -15,7 +15,7 @@ public class TrainConsistManagementApp {
             System.out.print(c + " ");
         }
 
-        // 🔁 BUBBLE SORT
+
         for (int i = 0; i < capacities.length - 1; i++) {
             for (int j = 0; j < capacities.length - 1 - i; j++) {
 
